@@ -1,34 +1,22 @@
 #!usr/bin/env python3
-class Vertex():
-    def __init__ (self, name = '', neighbours = {}):
-        self.name = name
-        self.neighbours = neighbours
+from collections import defaultdict
 
-    def add_neighbour(self, neighbourToBeAdded):
-        self.neighbours.update(neighbourToBeAdded)
+class Graph(object):
+    def __init__(self):
+        self.vertices = set()
+        self.edges = defaultdict(list)
+        self.distances = {}
 
-    def __str__ (self):
-        return "Vertex: {} with neighbours {}".format(self.name, self.neighbours)
+    def add_vertex(self, value):
+        self.vertices.add(value)
 
-class Graph():
-    def __init__(self, vertices = list()):
-        self.vertices = vertices
-
-    def add_vertex(self, vertexToBeAdded):
-        if vertexToBeAdded in self.vertices:
-            pass
-        else:
-            self.vertices.append(vertexToBeAdded)
-
-    def remove_vertex(self, vertexToBeRemoved):
-        if vertexToBeRemoved in self.vertices:
-            self.vertices.remove(vertexToBeRemoved)
-        else:
-            pass
+    def add_edge(self, from_node, to_node, distance):
+        self.edges[from_node].append(to_node)
+        self.edges[to_node].append(from_node)
+        self.distances[(from_node, to_node)] = distance
     
-    def get_numberOfVertices(self):
-        return len(self.vertices)
-
+    def get_edges(self):
+        return len(self.edges)
+    
     def print_graph(self):
-        for vertex in self.vertices:
-            print(vertex)
+        print([vertex for vertex in self.vertices])
